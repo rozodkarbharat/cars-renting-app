@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import SelectDateTime from '../Componnts/SelectDateTime'
 import HeroBanner from '../Componnts/HeroBanner';
+import FeaturedCars from '../Componnts/FeaturedCars';
 
 const Home = () => {
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   function togglemodal() {
     setShowModal(!showModal);
   }
+  
   return (
     <div className='pt-22'>
       <HeroBanner togglemodal={togglemodal}/>
       {showModal&&<SelectDateTime showModal={showModal} togglemodal={togglemodal}  />}
-      <div inline-datepicker data-date="02/25/2022"></div>
+    <FeaturedCars/>
     </div>
   )
 }

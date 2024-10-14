@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { signUp } from '../Redux/Slices/AuthReducer';
+import { signUp } from '../Redux/Slices/AuthSlice';
 
 const Signup = () => {
   const dispatch = useDispatch()

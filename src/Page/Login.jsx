@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { signIn } from '../Redux/Slices/AuthReducer';
+import { signIn } from '../Redux/Slices/AuthSlice';
 import Loader from '../Componnts/Loader';
 
 
