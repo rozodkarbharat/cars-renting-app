@@ -6,7 +6,7 @@ import CarCard from './CarCard'
 const FeaturedCars = () => {
     const dispatch =useDispatch()
     const {featuredCars}= useSelector(state=>state.car)
-    console.log(featuredCars,'features')
+    
     useEffect(() => {
         dispatch(getfeaturesCars())
       }, [])

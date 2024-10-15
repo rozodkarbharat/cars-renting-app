@@ -1,6 +1,7 @@
 import React from 'react'
 
-const CarCard = ({car}) => {
+const CarCard = ({car, handleBookCar}) => {
+
   return (
     <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
 
@@ -13,7 +14,7 @@ const CarCard = ({car}) => {
         <span className="text-3xl font-bold text-slate-900">₹{car?.charge}</span>
         <span className="text-sm text-slate-900 ">/ hour</span>
       </p>
-     <button className='bg-blue-500 text-white py-1 px-4 rounded'>Book Now</button>
+     <button onClick={()=>handleBookCar(car)} className='bg-blue-500 text-white py-1 px-4 rounded'>Book Now</button>
     </div>
   </div>
 </div>
