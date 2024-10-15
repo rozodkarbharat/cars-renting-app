@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import CarCard from '../Componnts/CarCard'
-import { getFilteredCars } from '../Redux/Slices/carSlice'
+import { bookCar, getFilteredCars } from '../Redux/Slices/carSlice'
 import { useSearchParams } from 'react-router-dom';
 
 
@@ -12,8 +12,17 @@ const CarsPage = () => {
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams();
 
-  function handleBookCar(car){
-    console.log(car,'car to book')  
+  async function handleBookCar(car){
+    let starttime = searchParams.get("starttime")
+    let endtime = searchParams.get("endtime")
+    let modelid = searchParams.get("modelid")
+    let carid = car.carid
+
+    let res = await dispatch(bookCar({carid, modelid,starttime,endtime}))
+
+   if(res.payload && !res.payload.error){
+    dispatch(getFilteredCars({starttime, endtime,modelid}))
+   }
   }
 
   useEffect(()=>{
