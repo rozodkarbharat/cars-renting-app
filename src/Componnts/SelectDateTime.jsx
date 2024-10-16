@@ -81,32 +81,44 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
     };
   }, []);
 
-  function selectBrand(e){
-    let tempselectedModels=[]
-     AllCarsModels.map((model) =>{
-      if(model.brandname === e.target.value){
-        tempselectedModels.push( model.modelname)
-      }
-     })
+  function selectBrand(e) {
+    let tempselectedModels = []
+    if(e.target.value!==""){
 
-     if(selectBrand){
-      if(!tempselectedModels.includes(selectModel)){
+      AllCarsModels.map((model) => {
+        if (model.brandname === e.target.value) {
+          tempselectedModels.push(model.modelname)
+        }
+      })
+  
+      if (selectedModel) {
+        if (!tempselectedModels.includes(selectedModel)) {
           setSelectedModel("")
+        }
       }
-     }
-     setAllModels(tempselectedModels)
-     setSelectedBrand(e.target.value)
+      setAllModels(tempselectedModels)
+    }
+    else{
+
+      let tempmodels = AllCarsModels.map((car) => {
+        return car.modelname
+      })
+      setAllModels(tempmodels)
+      setSelectedModel("")
+    }
+    setSelectedBrand(e.target.value)
   }
 
-  function selectModel(e){
-    let tempSelectedbrand = AllCarsModels.filter((model) =>{
-      if(model.modelname === e.target.value){
-        return true
-      }
-      else return false
-     })
-     setSelectedBrand(tempSelectedbrand[0].brandname)
-     setSelectedModel(e.target.value)
+  function selectModel(e) {
+
+      let tempSelectedbrand = AllCarsModels.filter((model) => {
+        if (model.modelname === e.target.value) {
+          return true
+        }
+        else return false
+      })
+      setSelectedBrand(tempSelectedbrand.length>0?tempSelectedbrand[0].brandname:"")
+    setSelectedModel(e.target.value)
   }
 
   return (
@@ -201,7 +213,7 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
               <div className='w-[40%]'>
                 <label for="hs-select-label" class="block  my-2 dark:text-white">Select Brand</label>
                 <select value={selectedBrand} onChange={selectBrand} id="hs-select-label" class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                  <option selected="">Select Brand</option>
+                  <option value={""} selected="">Select Brand</option>
                   {
                   allBrands.length>0 &&  allBrands?.map((brand)=>{
                    return  <option value={brand}>{brand}</option>})
@@ -211,7 +223,7 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
               <div className='w-[40%]'>
                 <label for="hs-select-label" class="block  my-2 dark:text-white">Select Model</label>
                 <select value={selectedModel} onChange={selectModel} id="hs-select-label" class="py-3 px-2 bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                  <option selected="">Select Model</option>
+                  <option value={""} selected="">Select Model</option>
                   {
                    allModels.length>0 && allModels?.map((model)=>(<option key ={model.id} value={model}>{model}</option>))
                   }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const HeroBanner = ({togglemodal}) => {
+const HeroBanner = ({togglemodal, togglAddCarModal}) => {
     return (
 
 
@@ -15,29 +15,27 @@ const HeroBanner = ({togglemodal}) => {
                 className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:flex lg:h-screen lg:items-center lg:px-8"
             >
                 <div className="max-w-xl text-center ltr:sm:text-left rtl:sm:text-right">
-                    <h1 className="text-3xl font-extrabold text-white sm:text-5xl">
+                    <h1 className="text-3xl font-extrabold  sm:text-5xl text-blue-500">
                         Let us find your
-
-                        <strong className="block font-extrabold text-blue-500"> Favourite Car. </strong>
+                        <strong className="block font-extrabold text-white"> Favourite Car. </strong>
                     </h1>
 
-                    {/* <p className="mt-4 max-w-lg text-blue-600 sm:text-xl/relaxed">
+                    <p className="mt-4 max-w-lg text-white sm:text-xl/relaxed">
                         Get your rented car in best prices
-                    </p> */}
+                    </p>
 
                     <div className="mt-8 flex flex-wrap gap-4 text-center">
                         <button onClick={togglemodal}
-                            className="block w-full rounded bg-rose-600 px-12 py-3 text-lg font-semibold text-white shadow hover:bg-rose-700 focus:outline-none focus:ring active:bg-rose-500 sm:w-auto"
+                            className="block w-3/4 rounded-lg px-12 py-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-smtext-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             Book Now
                         </button>
 
-                        {/* <a
-                            href="#"
-                            className="block w-full rounded bg-white px-12 py-3 text-sm font-medium text-rose-600 shadow hover:text-rose-700 focus:outline-none focus:ring active:text-rose-500 sm:w-auto"
+                        <button onClick={togglAddCarModal}
+                            className="block w-3/4 rounded-lg px-12 py-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-smtext-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
-                            Learn More
-                        </a> */}
+                            Add Car
+                        </button>
                     </div>
                 </div>
             </div>

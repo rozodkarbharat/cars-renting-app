@@ -47,9 +47,9 @@ export const getAllCarsModels = createAsyncThunk(
 
 export const bookCar = createAsyncThunk(
   "cars/bookcar",
-  async ({carid, modelid,starttime,endtime }, { rejectWithValue }) => {
+  async ({carid, modelid,starttime,endtime, userId }, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime})
+      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId})
       return data.data
     }
     catch (error) {
@@ -58,7 +58,19 @@ export const bookCar = createAsyncThunk(
     }
   })
 
-
+export const addCard = createAsyncThunk(
+  "cars/bookcar",
+  async (formData, { rejectWithValue }) => {
+    try {
+      let data = await axios.post("http://localhost:8000/car/add-car",formData)
+      console.log(data,'unpload response')
+      return data.data
+    }
+    catch (error) {
+      console.log(error, 'errro')
+      rejectWithValue(error.response.data)
+    }
+  })
 
 
 const carsSlice = createSlice({

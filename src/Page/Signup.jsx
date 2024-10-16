@@ -27,7 +27,7 @@ const Signup = () => {
       navigate("/login")
     }
     else if(res.payload.data ){
-      alert(res.payload.data)
+      alert(res.payload.data.message)
     }
     else{
       alert("Something went wrong")

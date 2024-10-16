@@ -17,7 +17,7 @@ const FeaturedCars = () => {
         <div className='flex flex-wrap '>
             {
                featuredCars.length>0 && featuredCars.map((car)=>{
-                    return <CarCard key={car._id} car={car} />
+                    return <CarCard canBook={false} key={car._id} car={car} />
                 })
             }
         </div>

@@ -43,7 +43,8 @@ const authSlice = createSlice({
       isLoading: false,
       error: null,
       token: false,
-      role:""
+      role:"",
+      userId:""
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -71,11 +72,13 @@ const authSlice = createSlice({
             state.token = action.payload.data.token;
             state.role = action.payload.data.role || "user"
             state.isLoading = false;
+            state.userId = action.payload.data.id
           }
           else{
             state.token = "";
             state.isLoading = false;
             state.error = "error";
+            state.userId = ""
           }
         })
         .addCase(signIn.rejected, (state, action) => {

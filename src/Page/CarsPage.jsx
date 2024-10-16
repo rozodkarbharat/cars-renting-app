@@ -7,8 +7,8 @@ import { useSearchParams } from 'react-router-dom';
 
 const CarsPage = () => {
   const { filteredCars } = useSelector(state => state.car)
-  const state = useSelector(state => state.auth)
-  console.log(state,'state auth')
+  const {userId} = useSelector(state => state.auth)
+
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -18,7 +18,7 @@ const CarsPage = () => {
     let modelid = searchParams.get("modelid")
     let carid = car.carid
 
-    let res = await dispatch(bookCar({carid, modelid,starttime,endtime}))
+    let res = await dispatch(bookCar({carid, modelid,starttime,endtime, userId}))
 
    if(res.payload && !res.payload.error){
     dispatch(getFilteredCars({starttime, endtime,modelid}))
@@ -37,7 +37,7 @@ const CarsPage = () => {
       <div class="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
         {
           filteredCars.length > 0 && filteredCars.map((car, index) => {
-            return <CarCard handleBookCar={handleBookCar} key={index} car={car} />
+            return <CarCard canBook={true} handleBookCar={handleBookCar} key={index} car={car} />
           })
         }
       </div>
