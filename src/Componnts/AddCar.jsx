@@ -73,7 +73,7 @@ const AddCar = ({ togglAddCarModal }) => {
     setFieldValue('model', selectedModel);
   };
 
-  const handleSubmit = (values) => {
+  const handleSubmit = async (values) => {
     let selectedModelDetail = AllCarsModels.filter((model)=>model.modelname == values.model)
     let carid = Date.now() 
 
@@ -88,7 +88,13 @@ const AddCar = ({ togglAddCarModal }) => {
       formData.append('carid', carid);
       formData.append('userid', userId);
 
-      dispatch(addCard(formData));
+     let response = await dispatch(addCard(formData));
+     if(!response.payload.error){
+      togglAddCarModal()
+     }
+     else{
+      alert(response?.payload?.message || "something went wrong")
+     }
   };
 
   return (
