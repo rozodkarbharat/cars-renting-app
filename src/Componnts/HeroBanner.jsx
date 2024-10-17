@@ -1,6 +1,21 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const HeroBanner = ({togglemodal, togglAddCarModal}) => {
+    const {role,token} = useSelector(state=>state.auth)
+    const navigate = useNavigate()
+
+    function handletogglemodal() {
+        if(token){
+
+            togglemodal()
+        }
+        else{
+            navigate("/login")
+        }
+    }
+
     return (
 
 
@@ -25,17 +40,17 @@ const HeroBanner = ({togglemodal, togglAddCarModal}) => {
                     </p>
 
                     <div className="mt-8 flex flex-wrap gap-4 text-center">
-                        <button onClick={togglemodal}
-                            className="block w-3/4 rounded-lg px-12 py-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-smtext-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        >
-                            Book Now
-                        </button>
-
-                        <button onClick={togglAddCarModal}
+                        {role=="admin" ? <button onClick={togglAddCarModal}
                             className="block w-3/4 rounded-lg px-12 py-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-smtext-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             Add Car
-                        </button>
+                        </button>:
+                        <button onClick={ handletogglemodal }
+                            className="block w-3/4 rounded-lg px-12 py-3 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium  text-smtext-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        >
+                            Book Now
+                        </button>}
+
                     </div>
                 </div>
             </div>

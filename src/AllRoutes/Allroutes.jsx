@@ -5,6 +5,8 @@ import CarsPage from "../Page/CarsPage";
 import Login from "../Page/Login";
 import Signup from "../Page/Signup";
 import IsAuth from "../Componnts/HOC/IsAuth";
+import MyCars from "../Page/MyCars";
+import Authentication from "../Componnts/HOC/Authentication";
 
 export const AllRoutes = createBrowserRouter([
     {
@@ -13,21 +15,27 @@ export const AllRoutes = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <Home/>
+                element: <Home />
             },
             {
                 path: "/cars",
-                element: <CarsPage />
+                element: <Authentication><CarsPage /></Authentication>
+            },
+            {
+                path: "/my-cars",
+                element: <Authentication> <MyCars /></Authentication>
             }
         ]
     },
     {
         path: "/login",
-        element:<IsAuth><Login/></IsAuth> 
+        element: <IsAuth><Login /></IsAuth>
     }
     ,
     {
         path: "/signup",
-        element:<IsAuth> <Signup/></IsAuth>
+        element: <IsAuth> <Signup /></IsAuth>
     }
+    
+
 ])

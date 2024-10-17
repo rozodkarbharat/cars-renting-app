@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCard, getAllCarsModels } from '../Redux/Slices/carSlice';
+import Loader from './Loader';
 
 const validationSchema = Yup.object({
   brand: Yup.string().required('Brand is required'),
@@ -14,11 +15,13 @@ const validationSchema = Yup.object({
 });
 
 const AddCar = ({ togglAddCarModal }) => {
-  const { AllCarsModels } = useSelector(state => state.car);
+  const { AllCarsModels, isLoading } = useSelector(state => state.car);
   const [allBrands, setAllBrands] = useState([]);
   const [allModels, setAllModels] = useState([]);
   const modalRef = useRef();
   const dispatch = useDispatch();
+  const {userId} = useSelector(state=>state.auth)
+
 
   useEffect(() => {
     dispatch(getAllCarsModels());
@@ -72,6 +75,7 @@ const AddCar = ({ togglAddCarModal }) => {
 
   const handleSubmit = (values) => {
     let selectedModelDetail = AllCarsModels.filter((model)=>model.modelname == values.model)
+    let carid = Date.now() 
 
     const formData = new FormData();
       formData.append('image', values.file); // Assuming the file input's name is 'image'
@@ -81,6 +85,8 @@ const AddCar = ({ togglAddCarModal }) => {
       formData.append('carnumber', values.registrationNumber);
       formData.append('charge', values.charge);
       formData.append('modelid', selectedModelDetail[0].id);
+      formData.append('carid', carid);
+      formData.append('userid', userId);
 
       dispatch(addCard(formData));
   };
@@ -94,6 +100,7 @@ const AddCar = ({ togglAddCarModal }) => {
           </svg>
         </button>
       </div>
+      {isLoading && <Loader/>}
       <Formik
         initialValues={{
           brand: '',

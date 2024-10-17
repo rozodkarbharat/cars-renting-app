@@ -63,7 +63,6 @@ export const addCard = createAsyncThunk(
   async (formData, { rejectWithValue }) => {
     try {
       let data = await axios.post("http://localhost:8000/car/add-car",formData)
-      console.log(data,'unpload response')
       return data.data
     }
     catch (error) {
@@ -73,6 +72,51 @@ export const addCard = createAsyncThunk(
   })
 
 
+export const getMyCars= createAsyncThunk("car/mycars", async function(token,{rejectWithValue}){
+    try{
+      const response = await axios.get("http://localhost:8000/admin/my-cars", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+        return response.data
+    }
+    catch(error){
+      return {}
+    }
+  })
+
+export const deleteOneCar = createAsyncThunk("car/deletecar", async function({token,id},{rejectWithValue}){
+  try{
+    
+    const response = await axios.post("http://localhost:8000/admin/delete-car",{id}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      return response.data
+  }
+  catch(error){
+    rejectWithValue(error.response.data)
+  }
+})
+
+export const updateOneCar = createAsyncThunk("car/updatecar", async function({token,id, charge},{rejectWithValue}){
+  try{
+    
+    const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      return response.data
+  }
+  catch(error){
+    rejectWithValue(error.response.data)
+  }
+})
+
+
 const carsSlice = createSlice({
   name: "cars",
   initialState: {
@@ -80,7 +124,8 @@ const carsSlice = createSlice({
     error: null,
     featuredCars: [],
     AllCarsModels: [],
-    filteredCars: []
+    filteredCars: [],
+    myAllCars: [],
   },
 
   reducers: {},
@@ -122,7 +167,7 @@ const carsSlice = createSlice({
         }
       })
       .addCase(getAllCarsModels.rejected, (state, action) => {
-        console.error("Error during sign-in:", action.error.message);
+        console.error("Error during getting all car models:", action.error.message);
         state.isLoading = false;
         state.error = action.error.message;
       })
@@ -142,7 +187,68 @@ const carsSlice = createSlice({
         }
       })
       .addCase(getFilteredCars.rejected, (state, action) => {
-        console.error("Error during sign-in:", action.error.message);
+        console.error("Error during getting filtered cars:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(addCard.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(addCard.fulfilled, (state, action) => {
+        state.isLoading = false;
+
+      })
+      .addCase(addCard.rejected, (state, action) => {
+        console.error("Error during adding car:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getMyCars.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getMyCars.fulfilled, (state, action) => {
+        if(action.payload.data && action.payload.data.length>0){
+          state.myAllCars = action.payload.data
+        }
+        else{
+          state.myAllCars = []
+        }
+        state.error=""
+        state.isLoading = false;
+
+      })
+      .addCase(getMyCars.rejected, (state, action) => {
+        console.error("Error during gettimg my cars:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(deleteOneCar.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(deleteOneCar.fulfilled, (state, action) => {
+        state.error=""
+        state.isLoading = false;
+
+      })
+      .addCase(deleteOneCar.rejected, (state, action) => {
+        console.error("Error during dleting car:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateOneCar.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(updateOneCar.fulfilled, (state, action) => {
+        state.error=""
+        state.isLoading = false;
+
+      })
+      .addCase(updateOneCar.rejected, (state, action) => {
+        console.error("Error during updating car:", action.error.message);
         state.isLoading = false;
         state.error = action.error.message;
       })

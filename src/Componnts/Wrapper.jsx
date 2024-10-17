@@ -4,10 +4,10 @@ import Navbar from './Navbar'
 
 const Wrapper = () => {
   return (
-   <>
+   <div className=' min-h-[100vh]'>
    <Navbar/>
    <Outlet/>
-   </>
+   </div>
   )
 }
 

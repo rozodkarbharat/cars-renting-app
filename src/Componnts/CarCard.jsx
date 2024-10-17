@@ -4,7 +4,7 @@ const CarCard = ({ car, handleBookCar, canBook }) => {
   return (
     <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
 
-      <img className="h-60 rounded-t-lg object-contain" src={`${car?.image}`} alt="product" />
+      <img className="h-60 rounded-t-lg object-fill" src={`${car?.image}`} alt="product" />
       <div className="mt-4 px-5 pb-5">
 
         <h5 className="text-xl font-semibold tracking-tight text-slate-900">{car?.carModels[0]?.brandname} {car?.carModels[0].modelname}</h5>

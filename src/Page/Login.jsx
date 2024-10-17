@@ -22,14 +22,12 @@ const initialValues = {
 const Login = () => {
   const dispatch = useDispatch()
   const {isLoading} = useSelector(state => state.auth)
-  console.log(isLoading,'isLoading')
   
   const onSubmit = async(values) => {
     try{
 
       if (isLoading) return 
-      let loginRes =await dispatch(signIn(values))
-      console.log(loginRes,'loginRes')
+      await dispatch(signIn(values))
     }
     catch(error){
       console.log(error,'error')

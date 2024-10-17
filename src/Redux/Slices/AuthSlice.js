@@ -25,7 +25,6 @@ export const signUp = createAsyncThunk(
     async (values,{rejectWithValue}) => {
       try {
         let data =   await axios.post("http://localhost:8000/user/login", values)
-        console.log(data,'data')
         return data
       }
       catch (error) {
@@ -34,6 +33,20 @@ export const signUp = createAsyncThunk(
       }
     }
   );
+
+  export const signOut = createAsyncThunk(
+    "auth/signOut",
+    async (_, { rejectWithValue }) => {
+      try {
+
+        return {}; // Or simply return null
+      } catch (error) {
+        console.error("Error during sign-out:", error);
+        return rejectWithValue(error.response?.data || "An error occurred during sign-out");
+      }
+    }
+  );
+  
   
 
 
@@ -46,6 +59,7 @@ const authSlice = createSlice({
       role:"",
       userId:""
     },
+    
     reducers: {},
     extraReducers: (builder) => {
       builder
@@ -67,7 +81,6 @@ const authSlice = createSlice({
           state.error = null;
         })
         .addCase(signIn.fulfilled, (state, action) => {
-          console.log(action.payload.data.token,'payload')
           if(action.payload.data && action.payload.data.token){
             state.token = action.payload.data.token;
             state.role = action.payload.data.role || "user"
@@ -86,6 +99,20 @@ const authSlice = createSlice({
           state.isLoading = false;
           state.error = action.error.message;
         })
+        .addCase(signOut.pending, (state,action) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(signOut.fulfilled, (state,action) => {
+          state.token = "";
+          state.role = "";
+          state.isLoading = false;
+          state.userId = "";
+        })
+        .addCase(signOut.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload; // Set the error message from action.payload
+        });
     },
   });
   
