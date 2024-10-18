@@ -4,6 +4,10 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCard, getAllCarsModels } from '../Redux/Slices/carSlice';
 import Loader from './Loader';
+import toast from 'react-hot-toast';
+
+const notify = (message, type) => toast[type](message)
+
 
 const validationSchema = Yup.object({
   brand: Yup.string().required('Brand is required'),
@@ -89,11 +93,13 @@ const AddCar = ({ togglAddCarModal }) => {
       formData.append('userid', userId);
 
      let response = await dispatch(addCard(formData));
-     if(!response.payload.error){
+
+     if(response?.payload && !response?.payload?.error){
       togglAddCarModal()
+      notify( "Car added successfully",'success')
      }
      else{
-      alert(response?.payload?.message || "something went wrong")
+      notify(response?.payload?.message || "something went wrong",'error')
      }
   };
 

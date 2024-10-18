@@ -2,40 +2,49 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../Redux/Slices/AuthSlice';
+import toast, { Toaster } from 'react-hot-toast';
+import Loader from '../Componnts/Loader';
+
+const notify = (message, type) => toast[type](message)
+
+const initialValues = {
+  name: '',
+  email: '',
+  password: '',
+};
+
+const validationSchema = Yup.object({
+  name: Yup.string().required('Name is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+});
+
 
 const Signup = () => {
+
   const dispatch = useDispatch()
   const navigate= useNavigate()
-  const initialValues = {
-    name: '',
-    email: '',
-    password: '',
-  };
+  const {isLoading} = useSelector(state=>state.auth)
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required('Name is required'),
-    email: Yup.string().email('Invalid email address').required('Email is required'),
-    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
-  });
 
   const onSubmit = async (values) => {
-    console.log("clicked")
+    
     let res = await dispatch(signUp({values}));
+    
     if(res.payload.data && res.payload.data.message ==="User Registered Successsfully"){
       navigate("/login")
     }
-    else if(res.payload.data ){
-      alert(res.payload.data.message)
-    }
-    else{
-      alert("Something went wrong")
+    else {
+      notify(res?.payload?.data?.message || "Something went wrong, Please try again",'error')
     }
   };
 
   return (
     <div className="h-[100vh] items-center flex justify-center px-5 lg:px-0">
+      <Toaster />
+      {isLoading && <Loader/>}
       <div className="max-w-screen-xl bg-white border shadow sm:rounded-lg flex justify-center flex-1">
         <div className="flex-1 bg-blue-900 text-center hidden md:flex">
           <div

@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteOneCar, getMyCars, updateOneCar } from '../Redux/Slices/carSlice'
+import toast from 'react-hot-toast'
+
+const notify = (message, type) => toast[type](message)
+
 
 const CarsTable = () => {
     const dispatch = useDispatch()
@@ -18,9 +22,10 @@ const CarsTable = () => {
         let deleteRes = await dispatch(deleteOneCar({ id, token }))
         if (deleteRes.payload && !deleteRes.payload?.error) {
             dispatch(getMyCars(token))
+            notify("Car deleted successfully",'success')
         }
         else {
-            alert(deleteRes.payload.message || "Error deleting car data")
+            notify(deleteRes?.payload?.message || "Error deleting car data",'error')
         }
     }
 
@@ -35,6 +40,9 @@ const CarsTable = () => {
         dispatch(getMyCars(token))
         setEditCarId("")
         setPriceToEdit(0)
+        notify("Car updated successfully",'success')
+       }else{
+        notify(updatedres?.payload?.message || "Error updating car data",'error')
        }
     }
 
@@ -58,7 +66,7 @@ const CarsTable = () => {
                             Qty
                         </th>
                         <th scope="col" className="px-6 py-6 sticky">
-                            Price
+                            Rate <span className='text-xs font-normal small-cap'>(per hour)</span>
                         </th>
                         <th scope="col" className="px-6 py-6 sticky ">
                             edit

@@ -4,7 +4,9 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllCarsModels, getFilteredCars } from '../Redux/Slices/carSlice';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
+const notify = (message, type) => toast[type](message)
 
 const initialValues = {
   startdate: '',
@@ -54,13 +56,18 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
     
     const startDateTime = new Date(`${values.startdate}T${values.starttime}`);
     const endDateTime = new Date(`${values.enddate}T${values.endtime}`);
+
     const startEpoch = Math.floor(startDateTime.getTime() / 1000);
     const endEpoch = Math.floor(endDateTime.getTime() / 1000); 
+
+    if((Date.now() - (startEpoch*1000))>0){
+        notify('Start date and time should be greater than current date and time','error')
+      return 
+    }
     let selectedModelDetail = AllCarsModels.filter((model)=>model.modelname == selectedModel)
-    console.log(startEpoch, endEpoch, selectedModel, selectedModelDetail[0].id,'submit')
-    // dispatch(getFilteredCars({starttime:startEpoch, endtime:endEpoch,modelid:selectedModelDetail[0].id}))
-      togglemodal()
-      navigate(`/cars?endtime=${endEpoch}&starttime=${startEpoch}&modelid=${selectedModelDetail[0].id}`)
+    
+    togglemodal()
+    navigate(`/cars?endtime=${endEpoch}&starttime=${startEpoch}&modelid=${selectedModelDetail[0].id}`)
   };
 
 
