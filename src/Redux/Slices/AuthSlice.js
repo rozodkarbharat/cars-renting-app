@@ -9,7 +9,7 @@ export const signUp = createAsyncThunk(
     async ({ values }, { rejectWithValue }) => {
       try {
         console.log(values,'values')
-      let data =   await axios.post("http://localhost:8000/user/signup", values)
+      let data =   await axios.post("http://localhost:8000/auth/signup", values)
 
       return data
       }
@@ -24,7 +24,7 @@ export const signUp = createAsyncThunk(
     "auth/signIn",
     async (values,{rejectWithValue}) => {
       try {
-        let data =   await axios.post("http://localhost:8000/user/login", values)
+        let data =   await axios.post("http://localhost:8000/auth/login", values)
         return data
       }
       catch (error) {
@@ -41,7 +41,7 @@ export const signUp = createAsyncThunk(
 
         return {}; // Or simply return null
       } catch (error) {
-        console.error("Error during sign-out:", error);
+        console.log("Error during sign-out:", error);
         return rejectWithValue(error.response?.data || "An error occurred during sign-out");
       }
     }

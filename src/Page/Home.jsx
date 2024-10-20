@@ -3,6 +3,8 @@ import SelectDateTime from '../Componnts/SelectDateTime'
 import HeroBanner from '../Componnts/HeroBanner';
 import FeaturedCars from '../Componnts/FeaturedCars';
 import AddCar from '../Componnts/AddCar';
+import GooglePlayStore from '../Componnts/GooglePlayStore';
+import Footer from '../Componnts/Footer';
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +24,8 @@ const Home = () => {
       {showModal&&<SelectDateTime showModal={showModal} togglemodal={togglemodal}  />}
       {showCarAddModal && <AddCar togglAddCarModal={togglAddCarModal}/>}
     <FeaturedCars/>
+    <GooglePlayStore/>  
+    <Footer/>
     </div>
   )
 }

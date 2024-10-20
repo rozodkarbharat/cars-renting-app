@@ -20,11 +20,11 @@ const AddCar = ({ togglAddCarModal }) => {
   const [allModels, setAllModels] = useState([]);
   const modalRef = useRef();
   const dispatch = useDispatch();
-  const {userId} = useSelector(state=>state.auth)
+  const {userId, token} = useSelector(state=>state.auth)
 
 
   useEffect(() => {
-    dispatch(getAllCarsModels());
+    dispatch(getAllCarsModels(token));
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -88,7 +88,7 @@ const AddCar = ({ togglAddCarModal }) => {
       formData.append('carid', carid);
       formData.append('userid', userId);
 
-     let response = await dispatch(addCard(formData));
+     let response = await dispatch(addCard({formData, token}));
      if(!response.payload.error){
       togglAddCarModal()
      }
@@ -98,7 +98,7 @@ const AddCar = ({ togglAddCarModal }) => {
   };
 
   return (
-    <div ref={modalRef} className='w-[60%] max-w-[500px] m-auto shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-lg z-50 top-[20vh] left-[20%] fixed bg-white'>
+    <div ref={modalRef} className='w-[60%] max-w-[500px] m-auto shadow-[0_20px_50px_rgba(8,_112,_184,_0.7)] rounded-lg z-50 top-[20vh] left-[20%] fixed bg-white pt-3'>
       <div className="flex items-center justify-between p-2 md:pt-6 rounded-t">
         <button onClick={togglAddCarModal} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-0 ms-auto inline-flex justify-center items-center">
           <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -120,7 +120,7 @@ const AddCar = ({ togglAddCarModal }) => {
         onSubmit={handleSubmit}
       >
         {({ setFieldValue }) => (
-          <Form className='py-10'>
+          <Form className='pb-10'>
             <div className='flex justify-center gap-8 w-[100%] mb-2'>
               <div className='w-[40%]'>
                 <label className="block my-2 dark:text-white">Select Brand</label>

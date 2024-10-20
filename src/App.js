@@ -4,7 +4,7 @@ import { AllRoutes } from './AllRoutes/Allroutes';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App w-[100%] border-box">
       <AllRoutes/>
     </div>
   );

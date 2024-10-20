@@ -22,7 +22,11 @@ export const getFilteredCars = createAsyncThunk(
   "cars/filteredCars",
   async (values, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/get-available-cars-by-modelid", values)
+      let data = await axios.post("http://localhost:8000/car/get-available-cars-by-modelid", values,{
+        headers: {
+          Authorization: `Bearer ${values.token}`,
+        },
+      })
       return data.data
     }
     catch (error) {
@@ -34,9 +38,13 @@ export const getFilteredCars = createAsyncThunk(
 
 export const getAllCarsModels = createAsyncThunk(
   "cars/allcarsmodels",
-  async (values, { rejectWithValue }) => {
+  async (token, { rejectWithValue }) => {
     try {
-      let data = await axios("http://localhost:8000/car/get-models")
+      let data = await axios("http://localhost:8000/car/get-models",{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       return data.data
     }
     catch (error) {
@@ -47,9 +55,13 @@ export const getAllCarsModels = createAsyncThunk(
 
 export const bookCar = createAsyncThunk(
   "cars/bookcar",
-  async ({carid, modelid,starttime,endtime, userId }, { rejectWithValue }) => {
+  async ({carid, modelid,starttime,endtime, userId, token }, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId})
+      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId},{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       return data.data
     }
     catch (error) {
@@ -60,9 +72,13 @@ export const bookCar = createAsyncThunk(
 
 export const addCard = createAsyncThunk(
   "cars/bookcar",
-  async (formData, { rejectWithValue }) => {
+  async ({formData, token}, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/add-car",formData)
+      let data = await axios.post("http://localhost:8000/car/add-car",formData,{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       return data.data
     }
     catch (error) {

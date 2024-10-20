@@ -7,7 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 
 const CarsPage = () => {
   const { filteredCars } = useSelector(state => state.car)
-  const {userId} = useSelector(state => state.auth)
+  const {userId, token} = useSelector(state => state.auth)
 
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,10 +18,10 @@ const CarsPage = () => {
     let modelid = searchParams.get("modelid")
     let carid = car.carid
 
-    let res = await dispatch(bookCar({carid, modelid,starttime,endtime, userId}))
+    let res = await dispatch(bookCar({carid, modelid,starttime,endtime, userId, token}))
 
    if(res.payload && !res.payload.error){
-    dispatch(getFilteredCars({starttime, endtime,modelid}))
+    dispatch(getFilteredCars({starttime, endtime,modelid, token}))
    }
   }
 
@@ -29,7 +29,7 @@ const CarsPage = () => {
     let starttime = searchParams.get("starttime")
     let endtime = searchParams.get("endtime")
     let modelid = searchParams.get("modelid")
-    dispatch(getFilteredCars({starttime, endtime,modelid}))
+    dispatch(getFilteredCars({starttime, endtime,modelid, token}))
   },[])
   
   return (

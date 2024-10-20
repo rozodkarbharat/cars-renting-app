@@ -12,9 +12,11 @@ const FeaturedCars = () => {
       }, [])
 
   return (
-    <div className='m-auto w-[90%] mt-5'>
-      <h3 className='text-xl font-semibold'>Featured Cars</h3>
-        <div className='flex flex-wrap '>
+    <section className='bg-[#f8f8f8] py-10'>
+
+    <div className='m-auto w-[90%]'>
+      <h3 className='text-2xl font-bold mb-5'>Featured Cars</h3>
+        <div className='flex flex-wrap justify-center gap-10'>
             {
                featuredCars.length>0 && featuredCars.map((car)=>{
                     return <CarCard canBook={false} key={car._id} car={car} />
@@ -22,6 +24,7 @@ const FeaturedCars = () => {
             }
         </div>
     </div>
+    </section>
   )
 }
 

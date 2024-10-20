@@ -2,7 +2,7 @@ import React from 'react'
 
 const CarCard = ({ car, handleBookCar, canBook }) => {
   return (
-    <div className="relative m-10 w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
+    <div className="relative w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-md">
 
       <img className="h-60 rounded-t-lg object-fill" src={`${car?.image}`} alt="product" />
       <div className="mt-4 px-5 pb-5">
