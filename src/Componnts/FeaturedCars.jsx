@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import CarCard from './CarCard'
 
 const FeaturedCars = () => {
-    const dispatch =useDispatch()
-    const {featuredCars}= useSelector(state=>state.car)
-    
-    useEffect(() => {
-        dispatch(getfeaturesCars())
-      }, [])
+  const dispatch = useDispatch()
+  const { featuredCars } = useSelector(state => state.car)
+
+  useEffect(() => {
+    dispatch(getfeaturesCars())
+  }, [])
 
   return (
     <section className='bg-[#f8f8f8] py-10'>

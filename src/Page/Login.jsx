@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { signIn } from '../Redux/Slices/AuthSlice';
 import Loader from '../Componnts/Loader';
-
+import toast, { Toaster } from 'react-hot-toast';
+const notify = (message, type) => toast[type](message)
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -27,16 +28,23 @@ const Login = () => {
     try{
 
       if (isLoading) return 
-      await dispatch(signIn(values))
+      let signinRes =  await dispatch(signIn(values))
+      if(signinRes?.payload?.data && !signinRes?.payload?.data?.error){
+      }
+      else{
+        notify(signinRes?.payload?.data?.message || "Something went wrong, Please try again",'error')
+      }
     }
     catch(error){
       console.log(error,'error')
+      notify("Something went wrong, Please try again",'error')
     }
   };
 
   return (
     <div className="flex items-center justify-center h-screen w-full px-5 sm:px-0">
      {isLoading &&  <Loader/>}
+     <Toaster />
       <div className="flex bg-white rounded-lg shadow-lg border overflow-hidden max-w-sm lg:max-w-4xl w-full">
         <div
           className="hidden md:block lg:w-1/2 bg-cover bg-blue-700"

@@ -6,18 +6,19 @@ import AddCar from '../Componnts/AddCar';
 import GooglePlayStore from '../Componnts/GooglePlayStore';
 import Footer from '../Componnts/Footer';
 
+
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showCarAddModal, setShowCarAddModal] = useState(false);
-  
+
   function togglemodal() {
     setShowModal(!showModal);
   }
 
-  function togglAddCarModal(){
+  function togglAddCarModal() {
     setShowCarAddModal(!showCarAddModal)
   }
-  
+
   return (
     <div className='pt-22'>
       <HeroBanner togglemodal={togglemodal} togglAddCarModal= {togglAddCarModal}/>

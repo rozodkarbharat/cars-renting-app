@@ -15,7 +15,7 @@ export const signUp = createAsyncThunk(
       }
       catch (error) {
         console.log(error, 'errro')
-        rejectWithValue(error.response.data)
+        return rejectWithValue(error.response.data)
       }
     }
   );
@@ -29,7 +29,7 @@ export const signUp = createAsyncThunk(
       }
       catch (error) {
         console.log(error, 'errro')
-        rejectWithValue(error.response.data)
+        return rejectWithValue(error.response.data)
       }
     }
   );
@@ -39,10 +39,11 @@ export const signUp = createAsyncThunk(
     async (_, { rejectWithValue }) => {
       try {
 
-        return {}; // Or simply return null
+        return {error:false}; 
       } catch (error) {
         console.log("Error during sign-out:", error);
         return rejectWithValue(error.response?.data || "An error occurred during sign-out");
+
       }
     }
   );
@@ -55,8 +56,8 @@ const authSlice = createSlice({
     initialState: {
       isLoading: false,
       error: null,
-      token: false,
-      role:"",
+      token: localStorage.getItem("token") || "",
+      role: localStorage.getItem("role") || "",
       userId:""
     },
     
@@ -82,6 +83,8 @@ const authSlice = createSlice({
         })
         .addCase(signIn.fulfilled, (state, action) => {
           if(action.payload.data && action.payload.data.token){
+            localStorage.setItem("role", action.payload.data.role || "user");
+            localStorage.setItem("token", action.payload.data.token);
             state.token = action.payload.data.token;
             state.role = action.payload.data.role || "user"
             state.isLoading = false;
@@ -104,6 +107,8 @@ const authSlice = createSlice({
           state.error = null;
         })
         .addCase(signOut.fulfilled, (state,action) => {
+          localStorage.removeItem("role");
+          localStorage.removeItem("token");
           state.token = "";
           state.role = "";
           state.isLoading = false;

@@ -194,13 +194,12 @@ const carsSlice = createSlice({
       .addCase(getFilteredCars.fulfilled, (state, action) => {
         if (action.payload && action.payload.data) {
           state.filteredCars = action.payload.data;
-          state.isLoading = false;
         }
         else {
           state.AllCarsModels = [];
-          state.isLoading = false;
           state.error = "error";
         }
+        state.isLoading = false;
       })
       .addCase(getFilteredCars.rejected, (state, action) => {
         console.error("Error during getting filtered cars:", action.error.message);
@@ -265,6 +264,20 @@ const carsSlice = createSlice({
       })
       .addCase(updateOneCar.rejected, (state, action) => {
         console.error("Error during updating car:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(bookCar.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(bookCar.fulfilled, (state, action) => {
+        state.error=""
+        state.isLoading = false;
+
+      })
+      .addCase(bookCar.rejected, (state, action) => {
+        console.error("Error during booking car:", action.error.message);
         state.isLoading = false;
         state.error = action.error.message;
       })
