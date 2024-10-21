@@ -120,7 +120,7 @@ export const deleteOneCar = createAsyncThunk("car/deletecar", async function({to
 export const updateOneCar = createAsyncThunk("car/updatecar", async function({token,id, charge},{rejectWithValue}){
   try{
     
-    const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge}, {
+    const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge:+charge}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
