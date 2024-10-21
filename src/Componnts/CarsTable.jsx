@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteOneCar, getMyCars, updateOneCar } from '../Redux/Slices/carSlice'
 import toast from 'react-hot-toast'
@@ -12,11 +12,6 @@ const CarsTable = () => {
     const { myAllCars } = useSelector(state => state.car)
     const [editCarId, setEditCarId] = useState("")
     const[priceToEdit,setPriceToEdit]=useState(10)
-
-
-    useEffect(() => {
-        dispatch(getMyCars(token))
-    }, [])
 
     async function handleDeletecar({ id, token }) {
         let deleteRes = await dispatch(deleteOneCar({ id, token }))

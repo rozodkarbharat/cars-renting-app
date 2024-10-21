@@ -1,10 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CarsTable from '../Componnts/CarsTable'
 import Loader from '../Componnts/Loader'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Toaster } from 'react-hot-toast'
+import { getMyCars } from '../Redux/Slices/carSlice'
 
 const MyCars = () => {
+
+    const dispatch = useDispatch()
+    const { token } = useSelector(state => state.auth)
+    useEffect(() => {
+        dispatch(getMyCars(token))
+    }, [])
 
     const { isLoading, myAllCars } = useSelector(state => state.car)
     return (

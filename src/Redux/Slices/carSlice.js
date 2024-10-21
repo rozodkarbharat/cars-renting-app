@@ -71,7 +71,7 @@ export const bookCar = createAsyncThunk(
   })
 
 export const addCard = createAsyncThunk(
-  "cars/bookcar",
+  "cars/addcar",
   async ({formData, token}, { rejectWithValue }) => {
     try {
       let data = await axios.post("http://localhost:8000/car/add-car",formData,{

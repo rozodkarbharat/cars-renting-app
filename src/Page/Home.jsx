@@ -5,6 +5,7 @@ import FeaturedCars from '../Componnts/FeaturedCars';
 import AddCar from '../Componnts/AddCar';
 import GooglePlayStore from '../Componnts/GooglePlayStore';
 import Footer from '../Componnts/Footer';
+import { Toaster } from 'react-hot-toast';
 
 
 const Home = () => {
@@ -21,6 +22,7 @@ const Home = () => {
 
   return (
     <div className='pt-22'>
+      <Toaster/>
       <HeroBanner togglemodal={togglemodal} togglAddCarModal= {togglAddCarModal}/>
       {showModal&&<SelectDateTime showModal={showModal} togglemodal={togglemodal}  />}
       {showCarAddModal && <AddCar togglAddCarModal={togglAddCarModal}/>}
