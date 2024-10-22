@@ -8,7 +8,6 @@ export const signUp = createAsyncThunk(
     "auth/signUp",
     async ({ values }, { rejectWithValue }) => {
       try {
-        console.log(values,'values')
       let data =   await axios.post("http://localhost:8000/auth/signup", values)
 
       return data

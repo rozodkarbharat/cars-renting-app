@@ -7,6 +7,7 @@ import Signup from "../Page/Signup";
 import IsAuth from "../Componnts/HOC/IsAuth";
 import MyCars from "../Page/MyCars";
 import Authentication from "../Componnts/HOC/Authentication";
+import BookedCars from "../Page/BookedCars";
 
 export const AllRoutes = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ export const AllRoutes = createBrowserRouter([
             {
                 path: "/my-cars",
                 element: <Authentication> <MyCars /></Authentication>
+            },
+            {
+                path: "/booked-cars",
+                element: <Authentication> <BookedCars /></Authentication>
             }
         ]
     },

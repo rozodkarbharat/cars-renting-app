@@ -132,6 +132,35 @@ export const updateOneCar = createAsyncThunk("car/updatecar", async function({to
   }
 })
 
+export const getMyBookings= createAsyncThunk("car/mybookings", async function(token,{rejectWithValue}){
+  try{
+    const response = await axios.get("http://localhost:8000/user/booked-cars", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      return response.data
+  }
+  catch(error){
+    return {}
+  }
+})
+
+export const cancelBooking = createAsyncThunk("car/cancelbooking", async function({token,id},{rejectWithValue}){
+  try{
+    
+    const response = await axios.post("http://localhost:8000/user/cancel-booking",{id}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+      return response.data
+  }
+  catch(error){
+    rejectWithValue(error.response.data)
+  }
+})
+
 
 const carsSlice = createSlice({
   name: "cars",
@@ -142,6 +171,7 @@ const carsSlice = createSlice({
     AllCarsModels: [],
     filteredCars: [],
     myAllCars: [],
+    myBookings:[]
   },
 
   reducers: {},
@@ -278,6 +308,37 @@ const carsSlice = createSlice({
       })
       .addCase(bookCar.rejected, (state, action) => {
         console.error("Error during booking car:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getMyBookings.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getMyBookings.fulfilled, (state, action) => {
+        if(action.payload?.data && action.payload?.data?.length>0){
+          state.myBookings= action.payload.data
+        }
+        state.error=""
+        state.isLoading = false;
+
+      })
+      .addCase(getMyBookings.rejected, (state, action) => {
+        console.error("Error getting booking car:", action.error.message);
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(cancelBooking.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(cancelBooking.fulfilled, (state, action) => {
+          state.error=""
+          state.isLoading = false;
+
+      })
+      .addCase(cancelBooking.rejected, (state, action) => {
+        console.error("Error getting booking car:", action.error.message);
         state.isLoading = false;
         state.error = action.error.message;
       })
