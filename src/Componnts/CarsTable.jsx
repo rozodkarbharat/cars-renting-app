@@ -116,7 +116,7 @@ const CarsTable = () => {
                                 </td>
 
                                 <td className="px-6 py-4">
-                                    <span onClick={() =>  handleDeletecar({ id: car?._id, token })} className="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</span>
+                                    <span onClick={() =>  handleDeletecar({ id: car?._id, token })} className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">Remove</span>
 
                                 </td>
                             </tr>
