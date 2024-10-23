@@ -58,7 +58,7 @@ const CarsTable = () => {
                             Model
                         </th>
                         <th scope="col" className="px-6 py-6 sticky">
-                            Qty
+                            Car Number
                         </th>
                         <th scope="col" className="px-6 py-6 sticky">
                             Rate <span className='text-xs font-normal small-cap'>(per hour)</span>
