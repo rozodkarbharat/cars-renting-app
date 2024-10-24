@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { cancelBooking, getMyBookings } from '../Redux/Slices/carSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 
 const notify = (message, type) => toast[type](message)
@@ -33,10 +33,9 @@ const SingleBookedCar = ({ booking }) => {
     }
 
     return (
-        <div className="card lg:card-side bg-base-100 shadow-xl flex  m-auto items-center mb-10 w-fll md:w-[50%]">
-            <Toaster/>
+        <div className="card w-[90%] lg:card-side bg-base-100 shadow-xl flex flex-col md:flex-row lg:flex-row  m-auto items-center mb-10 w-fll lg:w-[50%] md:w-[50%] py-5 justify-around">
             <figure>
-                <img className='h-72'
+                <img className=' w-96'
                     src={booking.carDetails[0].image}
                     alt="Album" />
             </figure>
