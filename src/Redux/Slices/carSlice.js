@@ -74,7 +74,7 @@ export const addCard = createAsyncThunk(
   "cars/addcar",
   async ({formData, token}, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/add-car",formData,{
+      let data = await axios.post("http://localhost:8000/admin/add-car",formData,{
         headers: {
           Authorization: `Bearer ${token}`,
         },
