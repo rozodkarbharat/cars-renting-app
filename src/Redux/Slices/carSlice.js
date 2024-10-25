@@ -7,7 +7,7 @@ export const getfeaturesCars = createAsyncThunk(
   "cars/featuredcars",
   async (values, { rejectWithValue }) => {
     try {
-      let data = await axios("http://localhost:8000/car/featured-cars")
+      let data = await axios("http://localhost:8000/car/featured-cars", {withCredentials:true})
       return data.data
     }
     catch (error) {
@@ -22,11 +22,7 @@ export const getFilteredCars = createAsyncThunk(
   "cars/filteredCars",
   async (values, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/get-available-cars-by-modelid", values,{
-        headers: {
-          Authorization: `Bearer ${values.token}`,
-        },
-      })
+      let data = await axios.post("http://localhost:8000/car/get-available-cars-by-modelid", values,{withCredentials:true})
       return data.data
     }
     catch (error) {
@@ -40,11 +36,7 @@ export const getAllCarsModels = createAsyncThunk(
   "cars/allcarsmodels",
   async (token, { rejectWithValue }) => {
     try {
-      let data = await axios("http://localhost:8000/car/get-models",{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      let data = await axios("http://localhost:8000/car/get-models",{withCredentials:true})
       return data.data
     }
     catch (error) {
@@ -57,11 +49,7 @@ export const bookCar = createAsyncThunk(
   "cars/bookcar",
   async ({carid, modelid,starttime,endtime, userId, token }, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId},{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId},{withCredentials:true})
       return data.data
     }
     catch (error) {
@@ -74,11 +62,7 @@ export const addCard = createAsyncThunk(
   "cars/addcar",
   async ({formData, token}, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/admin/add-car",formData,{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      let data = await axios.post("http://localhost:8000/admin/add-car",formData,{withCredentials:true})
       return data.data
     }
     catch (error) {
@@ -90,11 +74,7 @@ export const addCard = createAsyncThunk(
 
 export const getMyCars= createAsyncThunk("car/mycars", async function(token,{rejectWithValue}){
     try{
-      const response = await axios.get("http://localhost:8000/admin/my-cars", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get("http://localhost:8000/admin/my-cars", {withCredentials:true});
         return response.data
     }
     catch(error){
@@ -105,11 +85,7 @@ export const getMyCars= createAsyncThunk("car/mycars", async function(token,{rej
 export const deleteOneCar = createAsyncThunk("car/deletecar", async function({token,id},{rejectWithValue}){
   try{
     
-    const response = await axios.post("http://localhost:8000/admin/delete-car",{id}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post("http://localhost:8000/admin/delete-car",{id}, {withCredentials:true});
       return response.data
   }
   catch(error){
@@ -120,11 +96,7 @@ export const deleteOneCar = createAsyncThunk("car/deletecar", async function({to
 export const updateOneCar = createAsyncThunk("car/updatecar", async function({token,id, charge},{rejectWithValue}){
   try{
     
-    const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge:+charge}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge:+charge}, {withCredentials:true});
       return response.data
   }
   catch(error){
@@ -135,9 +107,7 @@ export const updateOneCar = createAsyncThunk("car/updatecar", async function({to
 export const getMyBookings= createAsyncThunk("car/mybookings", async function(token,{rejectWithValue}){
   try{
     const response = await axios.get("http://localhost:8000/user/booked-cars", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+     withCredentials:true
     });
       return response.data
   }
@@ -149,11 +119,7 @@ export const getMyBookings= createAsyncThunk("car/mybookings", async function(to
 export const cancelBooking = createAsyncThunk("car/cancelbooking", async function({token,id},{rejectWithValue}){
   try{
     
-    const response = await axios.post("http://localhost:8000/user/cancel-booking",{id}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.post("http://localhost:8000/user/cancel-booking",{id}, {withCredentials:true});
       return response.data
   }
   catch(error){
@@ -318,6 +284,8 @@ const carsSlice = createSlice({
       .addCase(getMyBookings.fulfilled, (state, action) => {
         if(action.payload?.data && action.payload?.data?.length>0){
           state.myBookings= action.payload.data
+        }else{
+          state.myBookings = []
         }
         state.error=""
         state.isLoading = false;

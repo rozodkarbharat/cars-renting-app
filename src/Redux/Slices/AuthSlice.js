@@ -8,8 +8,7 @@ export const signUp = createAsyncThunk(
     "auth/signUp",
     async ({ values }, { rejectWithValue }) => {
       try {
-      let data =   await axios.post("http://localhost:8000/auth/signup", values)
-
+      let data =   await axios.post("http://localhost:8000/auth/signup", values,{withCredentials:true})
       return data
       }
       catch (error) {
@@ -23,7 +22,7 @@ export const signUp = createAsyncThunk(
     "auth/signIn",
     async (values,{rejectWithValue}) => {
       try {
-        let data =   await axios.post("http://localhost:8000/auth/login", values)
+        let data =   await axios.post("http://localhost:8000/auth/login", values, {withCredentials:true})
         return data
       }
       catch (error) {
@@ -46,8 +45,19 @@ export const signUp = createAsyncThunk(
       }
     }
   );
-  
-  
+
+export const validateUser  = createAsyncThunk(
+  "auth/validate",
+  async (_, { rejectWithValue }) => {
+    try {
+      let response = await axios("http://localhost:8000/auth/validate-user",{withCredentials:true})
+      return response.data
+    } catch (error) {
+      console.log(error, 'errro')
+      return rejectWithValue(error.response.data)
+    }
+  }
+);
 
 
 const authSlice = createSlice({
@@ -115,7 +125,22 @@ const authSlice = createSlice({
         })
         .addCase(signOut.rejected, (state, action) => {
           state.isLoading = false;
-          state.error = action.payload; // Set the error message from action.payload
+          state.error = action.payload;
+        })
+
+        .addCase(validateUser.pending, (state,action) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(validateUser.fulfilled, (state,action) => {
+          if(action.payload.data && action.payload.data.role){
+            state.role = action.payload.data.role;            
+          }
+          state.isLoading = false;
+        })
+        .addCase(validateUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload; 
         });
     },
   });

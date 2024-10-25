@@ -17,6 +17,7 @@ const Navbar = () => {
 
         if (signoutRes?.payload && !signoutRes?.payload?.error) {
             notify("Sign out successfully", "success")
+            navigate("/")
         }
         else {
             notify("Error signing out", "error")
