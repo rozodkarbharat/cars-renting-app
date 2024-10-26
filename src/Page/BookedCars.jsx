@@ -7,10 +7,9 @@ import { Toaster } from 'react-hot-toast'
 
 const BookedCars = () => {
   const dispatch = useDispatch()
-  const {token} = useSelector(state=>state.auth)
   const {myBookings,isLoading} = useSelector(state=>state.car)
     useEffect(()=>{
-      dispatch(getMyBookings(token))
+      dispatch(getMyBookings())
     },[])
 
   return (

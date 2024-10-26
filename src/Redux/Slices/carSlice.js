@@ -34,7 +34,7 @@ export const getFilteredCars = createAsyncThunk(
 
 export const getAllCarsModels = createAsyncThunk(
   "cars/allcarsmodels",
-  async (token, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
       let data = await axios("http://localhost:8000/car/get-models",{withCredentials:true})
       return data.data
@@ -47,7 +47,7 @@ export const getAllCarsModels = createAsyncThunk(
 
 export const bookCar = createAsyncThunk(
   "cars/bookcar",
-  async ({carid, modelid,starttime,endtime, userId, token }, { rejectWithValue }) => {
+  async ({carid, modelid,starttime,endtime, userId }, { rejectWithValue }) => {
     try {
       let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId},{withCredentials:true})
       return data.data
@@ -60,7 +60,7 @@ export const bookCar = createAsyncThunk(
 
 export const addCard = createAsyncThunk(
   "cars/addcar",
-  async ({formData, token}, { rejectWithValue }) => {
+  async ({formData}, { rejectWithValue }) => {
     try {
       let data = await axios.post("http://localhost:8000/admin/add-car",formData,{withCredentials:true})
       return data.data
@@ -72,7 +72,7 @@ export const addCard = createAsyncThunk(
   })
 
 
-export const getMyCars= createAsyncThunk("car/mycars", async function(token,{rejectWithValue}){
+export const getMyCars= createAsyncThunk("car/mycars", async function(payload,{rejectWithValue}){
     try{
       const response = await axios.get("http://localhost:8000/admin/my-cars", {withCredentials:true});
         return response.data
@@ -82,7 +82,7 @@ export const getMyCars= createAsyncThunk("car/mycars", async function(token,{rej
     }
   })
 
-export const deleteOneCar = createAsyncThunk("car/deletecar", async function({token,id},{rejectWithValue}){
+export const deleteOneCar = createAsyncThunk("car/deletecar", async function({id},{rejectWithValue}){
   try{
     
     const response = await axios.post("http://localhost:8000/admin/delete-car",{id}, {withCredentials:true});
@@ -93,7 +93,7 @@ export const deleteOneCar = createAsyncThunk("car/deletecar", async function({to
   }
 })
 
-export const updateOneCar = createAsyncThunk("car/updatecar", async function({token,id, charge},{rejectWithValue}){
+export const updateOneCar = createAsyncThunk("car/updatecar", async function({id, charge},{rejectWithValue}){
   try{
     
     const response = await axios.post("http://localhost:8000/admin/update-car",{id,charge:+charge}, {withCredentials:true});
@@ -104,7 +104,7 @@ export const updateOneCar = createAsyncThunk("car/updatecar", async function({to
   }
 })
 
-export const getMyBookings= createAsyncThunk("car/mybookings", async function(token,{rejectWithValue}){
+export const getMyBookings= createAsyncThunk("car/mybookings", async function(payload,{rejectWithValue}){
   try{
     const response = await axios.get("http://localhost:8000/user/booked-cars", {
      withCredentials:true
@@ -116,7 +116,7 @@ export const getMyBookings= createAsyncThunk("car/mybookings", async function(to
   }
 })
 
-export const cancelBooking = createAsyncThunk("car/cancelbooking", async function({token,id},{rejectWithValue}){
+export const cancelBooking = createAsyncThunk("car/cancelbooking", async function({id},{rejectWithValue}){
   try{
     
     const response = await axios.post("http://localhost:8000/user/cancel-booking",{id}, {withCredentials:true});

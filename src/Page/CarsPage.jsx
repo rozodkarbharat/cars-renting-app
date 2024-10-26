@@ -10,7 +10,6 @@ const notify = (message, type) => toast[type](message)
 
 
 const CarsPage = () => {
-  const {userId, token} = useSelector(state => state.auth)
   const { filteredCars, isLoading } = useSelector(state => state.car)
 
   const dispatch = useDispatch()
@@ -22,11 +21,11 @@ const CarsPage = () => {
     let modelid = searchParams.get("modelid")
     let carid = car.carid
 
-    let res = await dispatch(bookCar({carid, modelid,starttime,endtime, userId, token}))
+    let res = await dispatch(bookCar({carid, modelid,starttime,endtime}))
 
 
    if(res?.payload && !res.payload?.error){
-    dispatch(getFilteredCars({starttime, endtime,modelid, token}))
+    dispatch(getFilteredCars({starttime, endtime,modelid}))
     notify("Car booked successfully",'success')
    }
    else{
@@ -39,7 +38,7 @@ const CarsPage = () => {
     let starttime = searchParams.get("starttime")
     let endtime = searchParams.get("endtime")
     let modelid = searchParams.get("modelid")
-    dispatch(getFilteredCars({starttime, endtime,modelid, token}))
+    dispatch(getFilteredCars({starttime, endtime,modelid}))
   },[])
   
   return (

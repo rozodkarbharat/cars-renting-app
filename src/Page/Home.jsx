@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SelectDateTime from '../Componnts/SelectDateTime'
 import HeroBanner from '../Componnts/HeroBanner';
 import FeaturedCars from '../Componnts/FeaturedCars';
@@ -6,11 +6,15 @@ import AddCar from '../Componnts/AddCar';
 import GooglePlayStore from '../Componnts/GooglePlayStore';
 import Footer from '../Componnts/Footer';
 import { Toaster } from 'react-hot-toast';
+import { validateUser } from '../Redux/Slices/AuthSlice';
+import { useDispatch } from 'react-redux';
 
 
 const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const [showCarAddModal, setShowCarAddModal] = useState(false);
+
+  const dispatch = useDispatch()
 
   function togglemodal() {
     setShowModal(!showModal);
@@ -19,6 +23,10 @@ const Home = () => {
   function togglAddCarModal() {
     setShowCarAddModal(!showCarAddModal)
   }
+
+  useEffect(() => {
+    dispatch(validateUser())
+  }, [])
 
   return (
     <div className='pt-22'>

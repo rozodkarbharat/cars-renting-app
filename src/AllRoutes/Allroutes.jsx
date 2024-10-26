@@ -8,6 +8,8 @@ import IsAuth from "../Componnts/HOC/IsAuth";
 import MyCars from "../Page/MyCars";
 import Authentication from "../Componnts/HOC/Authentication";
 import BookedCars from "../Page/BookedCars";
+import VerifyEmail from "../Page/VerifyEmail";
+import ErrorPage from "../Page/ErrorPage";
 
 export const AllRoutes = createBrowserRouter([
     {
@@ -40,6 +42,14 @@ export const AllRoutes = createBrowserRouter([
     {
         path: "/signup",
         element: <IsAuth> <Signup /></IsAuth>
+    },
+    {
+        path: "/verify/:token",
+        element: <IsAuth> <VerifyEmail /></IsAuth>
+    },
+    {
+        path: "*",
+        element: <ErrorPage />
     }
     
 

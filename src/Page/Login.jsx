@@ -30,13 +30,13 @@ const Login = () => {
       if (isLoading) return 
       let signinRes =  await dispatch(signIn(values))
       if(signinRes?.payload?.data && !signinRes?.payload?.data?.error){
+        
       }
       else{
-        notify(signinRes?.payload?.data?.message || "Something went wrong, Please try again",'error')
+        notify(signinRes?.payload?.message || "Something went wrong, Please try again",'error')
       }
     }
     catch(error){
-      console.log(error,'error')
       notify("Something went wrong, Please try again",'error')
     }
   };

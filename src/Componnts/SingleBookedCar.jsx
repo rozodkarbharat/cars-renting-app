@@ -19,12 +19,11 @@ function getTimeDate(epochTimestamp) {
 const SingleBookedCar = ({ booking }) => {
 
     const dispatch = useDispatch()
-    const {token} = useSelector(state => state.auth)
 
     async function handleCancel(){
-      let cancelRes= await  dispatch(cancelBooking({token,id:booking._id.toString()}))
+      let cancelRes= await  dispatch(cancelBooking({id:booking._id.toString()}))
       if(cancelRes.payload && cancelRes.payload.data && !cancelRes.payload.data.error){
-        dispatch(getMyBookings(token))
+        dispatch(getMyBookings())
         notify( "Car cancelled successfully",'success')
       }
       else{

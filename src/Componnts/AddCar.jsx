@@ -24,11 +24,11 @@ const AddCar = ({ togglAddCarModal }) => {
   const [allModels, setAllModels] = useState([]);
   const modalRef = useRef();
   const dispatch = useDispatch();
-  const {userId, token} = useSelector(state=>state.auth)
+  const {userId} = useSelector(state=>state.auth)
 
 
   useEffect(() => {
-    dispatch(getAllCarsModels(token));
+    dispatch(getAllCarsModels());
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -92,7 +92,7 @@ const AddCar = ({ togglAddCarModal }) => {
       formData.append('carid', carid);
       formData.append('userid', userId);
 
-     let response = await dispatch(addCard({formData, token}));
+     let response = await dispatch(addCard({formData}));
 
      if(response?.payload && !response?.payload?.error){
       togglAddCarModal()

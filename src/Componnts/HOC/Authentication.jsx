@@ -11,7 +11,7 @@ const Authentication = ({children}) => {
 
     useEffect(()=>{
         async function fetchUser(){
-         await dispatch(validateUser())
+            dispatch(validateUser())
             setLoading(false)
         }
         fetchUser()

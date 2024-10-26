@@ -8,15 +8,14 @@ const notify = (message, type) => toast[type](message)
 
 const CarsTable = () => {
     const dispatch = useDispatch()
-    const { token } = useSelector(state => state.auth)
     const { myAllCars } = useSelector(state => state.car)
     const [editCarId, setEditCarId] = useState("")
     const[priceToEdit,setPriceToEdit]=useState(10)
 
-    async function handleDeletecar({ id, token }) {
-        let deleteRes = await dispatch(deleteOneCar({ id, token }))
+    async function handleDeletecar({ id }) {
+        let deleteRes = await dispatch(deleteOneCar({ id }))
         if (deleteRes.payload && !deleteRes.payload?.error) {
-            dispatch(getMyCars(token))
+            dispatch(getMyCars())
             notify("Car deleted successfully",'success')
         }
         else {
@@ -30,9 +29,9 @@ const CarsTable = () => {
     }
 
     async function handleUpdate(){
-       let updatedres=await dispatch(updateOneCar({token,id:editCarId,charge: priceToEdit}))
+       let updatedres=await dispatch(updateOneCar({id:editCarId,charge: priceToEdit}))
        if(updatedres.payload && !updatedres.payload.error){
-        dispatch(getMyCars(token))
+        dispatch(getMyCars())
         setEditCarId("")
         setPriceToEdit(0)
         notify("Car updated successfully",'success')
@@ -116,7 +115,7 @@ const CarsTable = () => {
                                 </td>
 
                                 <td className="px-6 py-4">
-                                    <span onClick={() =>  handleDeletecar({ id: car?._id, token })} className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">Remove</span>
+                                    <span onClick={() =>  handleDeletecar({ id: car?._id })} className="font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer">Remove</span>
 
                                 </td>
                             </tr>

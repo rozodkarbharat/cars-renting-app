@@ -22,7 +22,25 @@ export const signUp = createAsyncThunk(
     "auth/signIn",
     async (values,{rejectWithValue}) => {
       try {
-        let data =   await axios.post("http://localhost:8000/auth/login", values, {withCredentials:true})
+        let data =   await axios.post("http://localhost:8000/auth/login",values, {withCredentials: true});
+        return data
+      }
+      catch (error) {
+        return rejectWithValue(error.response.data)
+      }
+    }
+  );
+
+  export const verifyEmail = createAsyncThunk(
+    "auth/verifyEmail",
+    async (token,{rejectWithValue}) => {
+      try {
+        let data =   await axios("http://localhost:8000/auth/verifyEmail", {
+          headers:{
+            token: `Bearer ${token}`,
+          },
+          withCredentials:true
+        })
         return data
       }
       catch (error) {
@@ -37,11 +55,11 @@ export const signUp = createAsyncThunk(
     async (_, { rejectWithValue }) => {
       try {
 
+        let res = await axios("http://localhost:8000/auth/signout",{withCredentials:true})
         return {error:false}; 
       } catch (error) {
         console.log("Error during sign-out:", error);
         return rejectWithValue(error.response?.data || "An error occurred during sign-out");
-
       }
     }
   );
@@ -53,7 +71,6 @@ export const validateUser  = createAsyncThunk(
       let response = await axios("http://localhost:8000/auth/validate-user",{withCredentials:true})
       return response.data
     } catch (error) {
-      console.log(error, 'errro')
       return rejectWithValue(error.response.data)
     }
   }
@@ -65,9 +82,8 @@ const authSlice = createSlice({
     initialState: {
       isLoading: false,
       error: null,
-      token: localStorage.getItem("token") || "",
-      role: localStorage.getItem("role") || "",
-      userId:""
+      role: "",
+    
     },
     
     reducers: {},
@@ -78,7 +94,7 @@ const authSlice = createSlice({
           state.error = null;
         })
         .addCase(signUp.fulfilled, (state, action) => {
-          state.token = false;
+          state.role = "";
           state.isLoading = false;
         })
         .addCase(signUp.rejected, (state, action) => {
@@ -91,20 +107,11 @@ const authSlice = createSlice({
           state.error = null;
         })
         .addCase(signIn.fulfilled, (state, action) => {
-          if(action.payload.data && action.payload.data.token){
-            localStorage.setItem("role", action.payload.data.role || "user");
-            localStorage.setItem("token", action.payload.data.token);
-            state.token = action.payload.data.token;
-            state.role = action.payload.data.role || "user"
-            state.isLoading = false;
-            state.userId = action.payload.data.id
+          if(action.payload.data && action.payload.data.role){
+            state.role = action.payload.data.role
           }
-          else{
-            state.token = "";
             state.isLoading = false;
             state.error = "error";
-            state.userId = ""
-          }
         })
         .addCase(signIn.rejected, (state, action) => {
           console.error("Error during sign-in:", action.error.message);
@@ -116,18 +123,13 @@ const authSlice = createSlice({
           state.error = null;
         })
         .addCase(signOut.fulfilled, (state,action) => {
-          localStorage.removeItem("role");
-          localStorage.removeItem("token");
-          state.token = "";
           state.role = "";
           state.isLoading = false;
-          state.userId = "";
         })
         .addCase(signOut.rejected, (state, action) => {
           state.isLoading = false;
           state.error = action.payload;
         })
-
         .addCase(validateUser.pending, (state,action) => {
           state.isLoading = true;
           state.error = null;
@@ -139,6 +141,18 @@ const authSlice = createSlice({
           state.isLoading = false;
         })
         .addCase(validateUser.rejected, (state, action) => {
+          state.isLoading = false;
+          state.error = action.payload; 
+        })
+        .addCase(verifyEmail.pending, (state,action) => {
+          state.isLoading = true;
+          state.error = null;
+        })
+        .addCase(verifyEmail.fulfilled, (state,action) => {
+          state.isLoading = false;
+          state.error = null;
+        })
+        .addCase(verifyEmail.rejected, (state, action) => {
           state.isLoading = false;
           state.error = action.payload; 
         });

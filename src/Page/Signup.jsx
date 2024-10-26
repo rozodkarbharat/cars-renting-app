@@ -34,7 +34,7 @@ const Signup = () => {
     let res = await dispatch(signUp({values}));
     
     if(res.payload.data && res.payload.data.message ==="User Registered Successsfully"){
-      navigate("/login")
+      notify("Verification link sent to your email successfully",'success')
     }
     else {
       notify(res?.payload?.data?.message || "Something went wrong, Please try again",'error')

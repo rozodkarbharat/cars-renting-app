@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const HeroBanner = ({togglemodal, togglAddCarModal}) => {
-    const {role,token} = useSelector(state=>state.auth)
+    const {role} = useSelector(state=>state.auth)
     const navigate = useNavigate()
 
     function handletogglemodal() {
-        if(token){
+        if(role){
 
             togglemodal()
         }

@@ -8,9 +8,8 @@ import { getMyCars } from '../Redux/Slices/carSlice'
 const MyCars = () => {
 
     const dispatch = useDispatch()
-    const { token } = useSelector(state => state.auth)
     useEffect(() => {
-        dispatch(getMyCars(token))
+        dispatch(getMyCars())
     }, [])
 
     const { isLoading, myAllCars } = useSelector(state => state.car)
