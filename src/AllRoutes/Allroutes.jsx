@@ -9,7 +9,7 @@ import MyCars from "../Page/MyCars";
 import Authentication from "../Componnts/HOC/Authentication";
 import BookedCars from "../Page/BookedCars";
 import ErrorPage from "../Page/ErrorPage";
-import VerifyEmail from "../Page/verifyEmail";
+import VerifyEmail from "../Page/VerifyEmail";
 
 export const AllRoutes = createBrowserRouter([
     {
