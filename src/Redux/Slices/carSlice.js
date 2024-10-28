@@ -67,7 +67,7 @@ export const addCard = createAsyncThunk(
     }
     catch (error) {
       console.log(error, 'errro')
-      rejectWithValue(error.response.data)
+      return rejectWithValue(error.response.data)
     }
   })
 
