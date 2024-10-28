@@ -18,14 +18,14 @@ const CarsPage = () => {
   async function handleBookCar(car){
     let starttime = searchParams.get("starttime")
     let endtime = searchParams.get("endtime")
-    let modelid = searchParams.get("modelid")
+    let modelid = car.modelid
     let carid = car.carid
 
     let res = await dispatch(bookCar({carid, modelid,starttime,endtime}))
 
 
    if(res?.payload && !res.payload?.error){
-    dispatch(getFilteredCars({starttime, endtime,modelid}))
+    dispatch(getFilteredCars({starttime, endtime,modelid:searchParams.get("modelid")}))
     notify("Car booked successfully",'success')
    }
    else{

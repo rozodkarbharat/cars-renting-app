@@ -58,8 +58,15 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
     const startDateTime = new Date(`${values.startdate}T${values.starttime}`);
     const endDateTime = new Date(`${values.enddate}T${values.endtime}`);
 
-    const startEpoch = Math.floor(startDateTime.getTime() / 1000);
-    const endEpoch = Math.floor(endDateTime.getTime() / 1000); 
+    const istOffset = 5.5 * 60 * 60 * 1000;
+    const startEpoch = Math.floor((startDateTime.getTime()+ istOffset )/ 1000);
+    const endEpoch = Math.floor((endDateTime.getTime()+ istOffset) / 1000); 
+
+
+    if((endEpoch-startEpoch)<3600){
+      notify('Cannot book for less than 1 hour','error')
+      return 
+    }
 
     if((Date.now() - (startEpoch*1000))>0){
         notify('Start date and time should be greater than current date and time','error')
