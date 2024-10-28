@@ -48,12 +48,13 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
       return car.modelname
      })
      tempAllCarsbrands = Object.keys(tempAllCarsbrands)
+     tempAllCarsbrands.unshift('all')
+     tempmodels.unshift('all')
      setAllBrands(tempAllCarsbrands)
      setAllModels(tempmodels)
   },[AllCarsModels])
 
   const handleSubmit = (values) => {
-    
     const startDateTime = new Date(`${values.startdate}T${values.starttime}`);
     const endDateTime = new Date(`${values.enddate}T${values.endtime}`);
 
@@ -64,10 +65,19 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
         notify('Start date and time should be greater than current date and time','error')
       return 
     }
-    let selectedModelDetail = AllCarsModels.filter((model)=>model.modelname == selectedModel)
+
+    let tempSelectedModel=""
+
+    if(selectedModel=='all'){
+      tempSelectedModel= 'all'
+    }
+    else{
+      let tempSelectedModels = AllCarsModels.filter((model)=>model.modelname == selectedModel)
+      tempSelectedModel = tempSelectedModels[0]?.id || ""
+    }
     
     togglemodal()
-    navigate(`/cars?endtime=${endEpoch}&starttime=${startEpoch}&modelid=${selectedModelDetail[0].id}`)
+    navigate(`/cars?endtime=${endEpoch}&starttime=${startEpoch}&modelid=${tempSelectedModel}`)
   };
 
 
@@ -91,6 +101,13 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
   function selectBrand(e) {
     let tempselectedModels = []
     if(e.target.value!==""){
+
+      if(e.target.value== "all"){
+        setAllModels(["all"])
+        setSelectedModel("all")
+        setSelectedBrand("all")
+        return 
+      }
 
       AllCarsModels.map((model) => {
         if (model.brandname === e.target.value) {
@@ -117,6 +134,12 @@ const SelectDateTime = ({ showModal, togglemodal }) => {
   }
 
   function selectModel(e) {
+
+    if(e.target.value== "all"){
+      setSelectedModel("all")
+      setSelectedBrand("all")
+      return
+    }
 
       let tempSelectedbrand = AllCarsModels.filter((model) => {
         if (model.modelname === e.target.value) {

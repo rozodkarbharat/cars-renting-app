@@ -49,7 +49,7 @@ export const bookCar = createAsyncThunk(
   "cars/bookcar",
   async ({carid, modelid,starttime,endtime, userId }, { rejectWithValue }) => {
     try {
-      let data = await axios.post("http://localhost:8000/car/book-car",{carid, modelid,starttime,endtime, userId},{withCredentials:true})
+      let data = await axios.post("http://localhost:8000/user/book-car",{carid, modelid,starttime,endtime, userId},{withCredentials:true})
       return data.data
     }
     catch (error) {

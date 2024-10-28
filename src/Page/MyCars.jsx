@@ -19,7 +19,7 @@ const MyCars = () => {
             <Toaster />
             {isLoading && <Loader />}
           {myAllCars.length>0?  <CarsTable myAllCars={myAllCars} />:
-            <h2 className='text-2xl font-semibold'>No Cars Found</h2>}
+            <h2 className='text-2xl font-semibold text-center w-[100%] pt-10 text-red-600'>No Cars Found</h2>}
         </div>
 
     )
